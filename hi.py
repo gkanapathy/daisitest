@@ -13,7 +13,7 @@ def goodbye(who=None):
         return f"Goodbye, {who}!"
 
 def lots(pone,ptwo,pthree):
-    return f"{pone}#pthree}-{ptwo}"
+    return f"{pone}#{pthree}-{ptwo}"
         
 if __name__ == "__main__":
     print(hello(sys.argv[1] if len(sys.argv) > 1 else None))
