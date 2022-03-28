@@ -1,19 +1,18 @@
-import sys
+import sqlite3
+from pydaisi import Daisi
+import pandas as pd
 
-def hello(name=None):
-    if not name:
-        return "Hello world!"
-    else:
-        return f"Hello, {name}!"
+daisi = Daisi("Sales Forecaster", base_url="https://dev3.daisi.io")
 
-def goodbye(who=None):
-    if not who:
-        return "Goodbye for now!"
-    else:
-        return f"Goodbye, {who}!"
+salesdb = sqlite3.connect("../sales-data/Sales.db")
+df = pd.read_sql_query(
+    """
+    SELECT Date as ds, sum(Sale_dollars) as y
+    FROM Sales
+    GROUP BY ds
+    ORDER BY ds asc
+    """,
+    salesdb,
+)
 
-def lots(pone,ptwo,pthree):
-    return f"{pone}#{pthree}-{ptwo}"
-        
-if __name__ == "__main__":
-    print(hello(sys.argv[1] if len(sys.argv) > 1 else None))
+f = daisi.forecast(10)
